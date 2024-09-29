@@ -115,6 +115,12 @@ def get_logger(filename=None):
 
     streamHandler.setFormatter(coloredFormatter)
     logger.addHandler(streamHandler)
+    # Get current date and time
+    from datetime import datetime
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Create log file name
+    filename = f"{current_time}.log"
 
     if filename:
         fileHandler = logging.FileHandler(filename)

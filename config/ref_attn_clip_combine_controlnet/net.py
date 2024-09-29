@@ -1110,6 +1110,8 @@ def tensor2pil(images, resize_img=False, img_target_size=None):
     images = images.cpu().permute(1, 2, 0).float().numpy()
     if images.ndim == 3:
         images = images[None, ...]
+       
+
     images = (images * 255).round().astype("uint8")
     if images.shape[-1] == 1:
         # special case for grayscale (single channel) images

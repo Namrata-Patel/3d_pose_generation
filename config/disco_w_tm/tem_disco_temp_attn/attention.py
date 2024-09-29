@@ -7,7 +7,7 @@ from typing import Optional
 import torch
 import torch.nn.functional as F
 from diffusers.configuration_utils import ConfigMixin, register_to_config
-from diffusers.models.attention import AdaLayerNorm, CrossAttention, FeedForward
+from diffusers.models.attention import AdaLayerNorm, Attention, FeedForward
 from diffusers.models.embeddings import CombinedTimestepLabelEmbeddings
 from diffusers.models.modeling_utils import ModelMixin
 from diffusers.utils import BaseOutput
@@ -74,7 +74,7 @@ class BasicTransformerBlock(nn.Module):
             )
 
         # 1. Spatial Self-Attn
-        self.attn1 = CrossAttention(
+        self.attn1 = Attention(
             query_dim=dim,
             heads=num_attention_heads,
             dim_head=attention_head_dim,
@@ -85,7 +85,7 @@ class BasicTransformerBlock(nn.Module):
         )
 
         # 2. Temporal Self-Attn
-        self.tem_attn = CrossAttention(
+        self.tem_attn = Attention(
             query_dim=dim,
             heads=num_attention_heads,
             dim_head=attention_head_dim,
@@ -114,7 +114,7 @@ class BasicTransformerBlock(nn.Module):
 
         # 2. Cross-Attn
         if cross_attention_dim is not None:
-            self.attn2 = CrossAttention(
+            self.attn2 = Attention(
                 query_dim=dim,
                 cross_attention_dim=cross_attention_dim,
                 heads=num_attention_heads,
@@ -229,7 +229,7 @@ class BasicTransformerBlock(nn.Module):
         return hidden_states
 
 
-class SparseCausalAttention(CrossAttention):
+class SparseCausalAttention(Attention):
     def forward(
         self,
         hidden_states,

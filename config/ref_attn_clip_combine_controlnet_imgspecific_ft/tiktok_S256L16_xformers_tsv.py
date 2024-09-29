@@ -39,7 +39,7 @@ class Args(BasicArgs):
 
 
     # max_norm = 1.0
-    epochs = 50
+    epochs = 10 # Namrata
     num_workers = 4
     eval_step = 5
     save_step = 5
@@ -54,7 +54,7 @@ class Args(BasicArgs):
 
     # sample
     num_inf_images_per_prompt = 1
-    num_inference_steps = 50
+    num_inference_steps = 10
     guidance_scale = 7.5
 
     # others

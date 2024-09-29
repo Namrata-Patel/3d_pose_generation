@@ -15,7 +15,7 @@ from utils.wutils_ldm import (
     complex_to_device, logger, ensure_dirname, file2data, data2file,
     Meter, Timer, adaptively_load_state_dict, get_parameters, ldm_tensor2img_wt, ldm_tensor2img)
 import wandb
-
+import torch
 
 class WarmupLinearLR(T.optim.lr_scheduler._LRScheduler):
     def __init__(
@@ -189,10 +189,14 @@ class Agent():
         if not self.args.dist:
             logger.info('Successfully built models with %s parameters' % get_parameters(self.model))
             return
+        
+        
+
         if self.args.deepspeed:
             if isinstance(self.optimizer, list):
                 raise ValueError("A list of optimizers are not supported with deepspeed, or IDK how to make it work with deepspeed")
             config = get_deepspeed_config(self.args)
+            print("DEEPSPEED config", config)
 
             if self.pretrained_model and not self.pretrained_model.endswith(".pth"):
                 print('Specify the load model path, not use deepspeed but the pytorch original load func')
@@ -350,6 +354,7 @@ class Agent():
         train_meter = Meter()
         train_timer = Timer()
         train_iter = tqdm(train_loader, total=len(train_loader), disable=not use_tqdm)
+        
         for step, inputs in enumerate(train_iter):
             for optimizer_idx in range(len(self.optimizer)):
                 if not getattr(self.optimizer[optimizer_idx], 'is_enabled', lambda x: True)(self.epoch):
@@ -357,7 +362,7 @@ class Agent():
 
                 inputs['epoch'] = self.epoch
                 inputs['global_step'] = self.epoch * len(train_loader) + step
-                self.global_step = inputs['global_step'] 
+                self.global_step = inputs['global_step']
                 inputs['optimizer_idx'] = optimizer_idx
 
                 inputs = self.prepare_batch(inputs)
@@ -368,7 +373,6 @@ class Agent():
                     self.backward_step(outputs['loss_total'])
                 else:
                     self.backward_step(outputs[f'loss_total_{optimizer_idx}'])
-                    # outputs['loss_total_%s' % optimizer_idx].backward()
 
                 if (step + 1) % self.args.gradient_accumulate_steps == 0 and outputs.get('logits_last', True):
                     self.grad_clip()
@@ -379,10 +383,14 @@ class Agent():
                     metric_and_loss[k] = self.reduce_mean(v)
                 train_meter.update(metric_and_loss)
 
+                # Clear CUDA memory to prevent out-of-memory errors
+                torch.cuda.empty_cache()
+
             if self.scheduler:
                 self.scheduler.step()
 
-            train_iter.set_description("Metering:" + str(train_meter))
+            train_iter.set_description("Metering: " + str(train_meter))
+        
         train_time = train_timer.elapse(True)
         return train_meter, train_time
 
@@ -525,6 +533,7 @@ class Agent():
 
         self.model.train()
         return eval_meter, eval_time
+    
 
     def eval_fn_demo(self, input_batch, enc_dec_only=False):
         self.model.eval()
@@ -537,6 +546,25 @@ class Agent():
             outputs = self.forward_step(inputs)
 
             from PIL import Image
+            # def tensor2pil(images, resize_img=None, img_target_size=None):
+            #     # Check for NaN and Inf values
+            #     if torch.isnan(images).any() or torch.isinf(images).any():
+            #         print("Invalid values found in the images tensor.")
+            #         images = torch.nan_to_num(images, nan=0.0, posinf=255.0, neginf=0.0)
+
+            #     # Normalize and scale
+            #     #images = (images * 255).clamp(0, 255).round().astype("uint8")
+            #     #Namrata
+            #     images = (images * 255).clamp(0, 255).round().to(torch.uint8)
+
+            #     # Convert to PIL Images
+            #     pil_images = [Image.fromarray(img) for img in images]
+            #     if resize_img and img_target_size:
+            #         pil_images = [img.resize(img_target_size) for img in pil_images]
+
+            #     return pil_images
+            
+            # Namrata Fix the function
             def tensor2pil(images, resize_img=False, img_target_size=None):
                 # c, h, w
                 images = images.cpu().permute(1, 2, 0).float().numpy()
@@ -562,6 +590,8 @@ class Agent():
                 return pil_images
 
             output_image = tensor2pil(outputs['logits_imgs'].squeeze(), resize_img=self.args.pos_resize_img, img_target_size=None)[0]
+            
+
         return output_image
 
 

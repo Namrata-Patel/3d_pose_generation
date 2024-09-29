@@ -17,13 +17,18 @@ class Args(BasicArgs):
     img_full_size = (256, 256)
     img_size = (256, 256)
     fps = 5
-    data_dir = "./blob_dir/debug_output/video_sythesis/dataset"
-    debug_train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
-    debug_val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
-    train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/train_TiktokDance-poses.yaml'
-    val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
+    data_dir = "/scratch/namrata/3d_pose_gen/dataset"
+    # debug_train_yaml = 'Titktok_finetuning/composite_offset/train_TiktokDance-poses-masks.yaml'
+    # debug_val_yaml = 'Titktok_finetuning/composite_offset/new10val_TiktokDance-poses-masks.yaml'
+    # train_yaml = 'Titktok_finetuning/composite_offset/train_TiktokDance-poses-masks.yaml'
+    # val_yaml = 'Titktok_finetuning/composite_offset/new10val_TiktokDance-poses-masks.yaml'
+    debug_train_yaml=""
+    debug_val_yaml=""
+    train_yaml=""
+    val_yaml=""
+
     # WT: for tiktok image data dir
-    tiktok_data_root = 'keli/dataset/TikTok_dataset/'
+    tiktok_data_root = 'dataset/Tiktok_finetuning/TiktokDance'
     # tiktok_ann_root = 'keli/dataset/TikTok_dataset/pair_ann'
     refer_sdvae = False
 

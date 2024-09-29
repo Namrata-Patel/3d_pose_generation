@@ -222,7 +222,7 @@ def get_suffix(file_path):
     except:
         raise ValueError(f"file_path:{file_path} error!")
 
-def data2file(data, filename, type=None, override=False, printable=False, **kwargs):
+def data2file(data, filename, type=None, override=True, printable=False, **kwargs):
     dirname, rootname, extname = split_filename(filename)
     print_did_not_save_flag = True
     if type:

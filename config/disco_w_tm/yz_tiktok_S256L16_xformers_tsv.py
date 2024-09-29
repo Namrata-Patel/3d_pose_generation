@@ -5,8 +5,9 @@ from config import *
 
 class Args(BasicArgs):
     root_dir = BasicArgs.root_dir
+    print(root_dir)
     if not Path(BasicArgs.root_dir).exists():
-        root_dir = "./blob_dir/debug_output/video_sythesis"
+        root_dir = "/media/namrata/Projects/Yeshiva/3d_pose_generation"
 
     task_name, method_name = BasicArgs.parse_config_name(__file__)
     log_dir = os.path.join(root_dir, task_name, method_name)
@@ -20,11 +21,17 @@ class Args(BasicArgs):
     img_full_size = (256, 256)
     img_size = (256, 256)
     fps = 5
-    data_dir = "./blob_dir/debug_output/video_sythesis/dataset"
-    debug_train_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml"
-    debug_val_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml"
-    train_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite_offset/train_TiktokDance-poses-masks-depth.yaml"
-    val_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite_offset/new10val_TiktokDance-poses-masks-depth.yaml"
+    # data_dir = "./blob_dir/debug_output/video_sythesis/dataset"
+    # debug_train_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml"
+    # debug_val_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml"
+    # train_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite_offset/train_TiktokDance-poses-masks-depth.yaml"
+    # val_yaml = "./blob_dir/debug_output/video_sythesis/dataset/composite_offset/new10val_TiktokDance-poses-masks-depth.yaml"
+
+    data_dir="/media/namrata/Projects/Yeshiva/3d_pose_generation/dataset/TikTok_finetuning/composite_offset"
+    debug_train_yaml=""
+    debug_val_yaml=""
+    train_yaml="/media/namrata/Projects/Yeshiva/3d_pose_generation/dataset/TikTok_finetuning/composite_offset/train_TiktokDance-poses-masks.yaml"
+    val_yaml="/media/namrata/Projects/Yeshiva/3d_pose_generation/dataset/TikTok_finetuning/composite_offset/new10val_TiktokDance-poses-masks.yaml"
 
     tiktok_data_root = "./tiktok_datasets"
 

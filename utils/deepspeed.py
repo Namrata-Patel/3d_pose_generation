@@ -23,8 +23,8 @@ def get_deepspeed_config(args):
 
         if use_fp16:
             config_params['fp16'] = {
-                'enabled': True,
-                # "auto_cast": True,
+                'enabled': True, #Namrata
+                "loss_scale": 64 #Namrata
             }
             if args.do_train:
                 config_params['zero_optimization'] = {
@@ -33,7 +33,7 @@ def get_deepspeed_config(args):
                         "device": "cpu",
                         "pin_memory": True},
                     "contiguous_gradients": True,
-                    "overlap_comm": True,
+                    "overlap_comm": False, # Namrata , set to False
                     "reduce_scatter": True, # default
                     "reduce_bucket_size": 5e8, # default
                     "allgather_bucket_size": 5e8, # default

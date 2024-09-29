@@ -17,11 +17,18 @@ class Args(BasicArgs):
     img_full_size = (256, 256)
     img_size = (256, 256)
     fps = 5
-    data_dir = "./blob_dir/debug_output/video_sythesis/dataset"
-    debug_train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
-    debug_val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
-    train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/train_TiktokDance-poses.yaml'
-    val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
+#    data_dir = "./blob_dir/debug_output/video_sythesis/dataset"
+    # debug_train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
+    # debug_val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
+    # train_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/train_TiktokDance-poses.yaml'
+    # val_yaml = './blob_dir/debug_output/video_sythesis/dataset/composite/val_TiktokDance-poses.yaml'
+
+    data_dir=""
+    debug_train_yaml=""
+    debug_val_yaml=""
+    train_yaml=""
+    val_yaml=""
+
     # WT: for tiktok image data dir
     tiktok_data_root = 'keli/dataset/TikTok_dataset/'
     # tiktok_ann_root = 'keli/dataset/TikTok_dataset/pair_ann'
@@ -39,7 +46,7 @@ class Args(BasicArgs):
 
 
     # max_norm = 1.0
-    epochs = 50
+    epochs = 10
     num_workers = 4
     eval_step = 5
     save_step = 5
