@@ -31,10 +31,5 @@ DISCO-RT is an adaptation of the original DISCO model, designed to generate high
 ## Model Training
   Follow DISCO Model's Guideline for the same.
 ## References
-  1. Siarohin, A., et al. "First Order Motion Model for Image Animation." In NIPS, 2019.
-  2. Ho, J., & Salimans, T. "Classifier-free Diffusion Guidance." arXiv, 2022.
-  3. Ramesh, A., et al. "Hierarchical Text-Conditional Image Generation with CLIP Latents." arXiv, 2022.
-## Credits
-This project builds upon the original DISCO model by the research team at DISCO: Disentangled Control for Realistic Human Dance Generation. Full credit goes to the original authors for their foundational work, which made DISCO-RT possible.
-
-For further details, see <a href="https://arxiv.org/pdf/2307.00040">DISCO: Disentangled Control for Realistic Human Dance Generation.</a>
+   This project builds upon the original DISCO model by the research team at DISCO: Disentangled Control for Realistic Human Dance Generation. Full credit goes to the original authors for their foundational work, which made DISCO-RT possible.
+   For further details, see <a href="https://arxiv.org/pdf/2307.00040">DISCO: Disentangled Control for Realistic Human Dance Generation.</a>
